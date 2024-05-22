@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GraphQL</title>
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+        <link rel="stylesheet" href="styles.css">
+        <script src="script.js" type="module"></script>
+        <script type="text/javascript" src="scripts/helpers.js"></script>
+    </head>
+    <body class="tone-1">
+        <div id="login-form" class="flex items-center justify-center h-screen bg-gray-800" style="display: none;">
+            <div class="flex rounded-xl overflow-hidden h-min">
+                <div style="position: relative; width: 400px; height: 500px;">
+                    <img src="./images/preview.webp" class="h-full blur-sm"/>
+                    <div class="absolute inset-0 flex flex-col justify-center items-center text-white select-none">
+                        <h1 class="text-5xl font-changa mb-10" style="font-weight: 600;">GraphQL</h1>
+                        <h2 class="text-2xl font-changa" >Explore your Intra statistics</h2>
+                        <h2 class="text-2xl font-changa mb-8">all in one place!</h2>
+                        <h3 class="text-xl font-changa" style="font-weight: 500;">Log in using</h3>
+                        <h3 class="text-xl font-changa" style="font-weight: 500;">kood/Jõhvi credentials</h3>
+                    </div>
+                </div>
+                <form style="width: 400px; height: 500px; margin:0;">
+                    <div class="bg-white w-full h-full rounder shadow-sm flex flex-row justify-center items-center">
+                        <div class="bg-white flex flex-col items-start justify-center w-full px-7">
+                            <h1 class="text-4xl pb-6">Log in</h1>
+                            <label class="text-gray-700">Email/Username</label>
+                            <input
+                                id="email-input"
+                                class="w-full py-2 bg-blue-50 text-gray-500 px-1 outline-none mb-4"
+                                type="text"
+                                autocomplete="off"
+                                placeholder="Email"
+                            />
+                            <label class="text-gray-700">Password</label>
+                            <input
+                                id="password-input"
+                                class="w-full py-2 bg-blue-50 text-gray-500 px-1 outline-none mb-4"
+                                type="password"
+                                autocomplete="off"
+                                placeholder="Password"
+                            />
+                            <button type="submit" class="bg-blue-500 w-full text-gray-100 py-2 
+                            rounded hover:bg-blue-600 transition-colors">Login</button>
+                            <div id="auth-error" class="bg-red-600 w-full h-10 rounded mt-7 flex justify-center items-center">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="HUD" class="h-screen tone-2 overflow-hidden" style="display: none;">
+            <nav class="tone-1 w-full h-12 top-0 fixed flex justify-between z-10">
+                <div class="w-44 h-full flex justify-center items-center">
+                    <h1 onclick="" style="cursor: pointer; font-weight: 700;" class="font-changa text-2xl h-max text-gray-50 select-none">GraphQL</h1>
+                </div>
+                <div class="w-max h-full flex flex-row justify-center items-center">
+                    <div>
+                        <a id="nav-username" class="font-changa text-xl text-gray-50" style="font-weight: 400;"></a>
+                    </div>
+                    <div id="logout">
+                        <svg class="logoutBtn" width="44px" height="44px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" style="--darkreader-inline-stroke: #e8e6e3;" data-darkreader-inline-stroke="" stroke-width="1.008">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> 
+                                <path d="M13 4.00894C13.0002 3.45665 12.5527 3.00876 12.0004 3.00854C11.4481 3.00833 11.0002 3.45587 11 4.00815L10.9968 12.0116C10.9966 12.5639 11.4442 13.0118 11.9965 13.012C12.5487 13.0122 12.9966 12.5647 12.9968 12.0124L13 4.00894Z" fill="#ffffff" style="--darkreader-inline-fill: #181a1b;" data-darkreader-inline-fill=""></path> 
+                                <path d="M4 12.9917C4 10.7826 4.89541 8.7826 6.34308 7.33488L7.7573 8.7491C6.67155 9.83488 6 11.3349 6 12.9917C6 16.3054 8.68629 18.9917 12 18.9917C15.3137 18.9917 18 16.3054 18 12.9917C18 11.3348 17.3284 9.83482 16.2426 8.74903L17.6568 7.33481C19.1046 8.78253 20 10.7825 20 12.9917C20 17.41 16.4183 20.9917 12 20.9917C7.58172 20.9917 4 17.41 4 12.9917Z" fill="#ffffff" style="--darkreader-inline-fill: #181a1b;" data-darkreader-inline-fill=""></path> 
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </nav>
+            <div class="w-full h-full top-12 relative flex flex-row">
+                <div class="w-1/4 h-full flex justify-center" style="min-width: 320px;">
+                    <div id="profile" class="tone-1 rounded border-gray-400 border-2 w-3/4 h-max mt-12 p-3 flex flex-col justify-start items-center" style="min-width: 290px; height: 750px;">
+                        <div>
+                            <h3 id="profile-rank" class="font-changa text-lg text-gray-50 select-none" style="font-weight: 400;"></h3>
+                        </div>
+                        <div><a id="profile-username" class="text-lg font-changa text-gray-50" style="user-select: none;" ></a></div>
+                        <div id="profile-level select-none">
+                            <a id="profile-level-amount" class="font-changa text-gray-50 select-none" style="font-weight: 400;"></a>
+                        </div>
+                        <div id="profile-totalXP" class="w-full h-fit  border-2 border-gray-500 rounded my-3 p-2">
+                            <a class="font-changa text-gray-50 select-none text-2xl" style="font-weight: 700;">Total XP</a>
+                            <div class="flex flex-row items-baseline">
+                                <h1 id="total-XP" class="text-5xl font-changa text-gray-50 select-none" style="font-weight: 600;"></h1>
+                                <h1 class="text-4xl font-changa text-gray-50 select-none ml-2" style="font-weight: 400;">kB</h1>
+                            </div>
+                        </div>
+                        <div id="profile-audits" class="w-full h-fit  border-2 border-gray-500 rounded mb-3 p-2">
+                            <div class="flex flex-row items-baseline">
+                                <h1 id="audits-ratio" class="text-4xl font-changa text-gray-50 select-none"></h1>
+                                <a class="ml-2 font-changa text-gray-50 select-none">Audit Ratio</a>
+                            </div>
+                            <div id="profile-ratioBar" class="w-full h-3 bg-orange-500 rounded border-2 border-gray-300 ">
+                                <div id="profile-ratioBar-done" class="w-full h-full bg-green-500 rounded rounded-e "></div>
+                            </div>
+                            <div class="flex flex-row justify-between mt-1" style="user-select: none;">
+                                <div class="flex flex-col justify-center items-center">
+                                    <p class="font-changa text-green-500">Done↑</p>
+                                    <p id="audits-completed" class="font-changa text-green-500" style="font-weight: 400;"></p>
+                                </div>
+                                <div class="flex flex-col justify-center items-center">
+                                    <p class="font-changa text-orange-500">↓Recieved</p>
+                                    <p id="audits-recieved" class="font-changa text-orange-500" style="font-weight: 400;"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="profile-skills" class="w-full h-fit border-2 border-gray-500 rounded p-2">
+                            <h1 class="text-2xl text-gray-50 font-changa mb-1 select-none">Top Skills</h1>
+                            <ol id="profile-skills-list" class="h-fit">
+                            </ol>
+                        </div>
+                        <div class="h-fit w-fit flex justify-start items-center mt-3">
+                            <div class="flex justify-start align-top"><a href="#" id="profile-login" class="text-blue-400 hover:text-blue-500 hover:underline font-changa font-medium" style="font-weight: 500;"></a></div>
+                            <div class="text-sm ml-2 text-gray-50 font-changa font-medium" style="user-select: none;"><a  class="font-medium">(</a><a id="profile-userID" class="font-medium"></a><a class="font-medium">)</a></div>
+                        </div>
+                        <div>
+                            <a id="profile-email" class="text-s select-none text-gray-50 font-changa" style="font-weight: 400;"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-3/4 h-full flex justify-center">
+                    <div class="w-11/12 h-4/5 mt-12">
+                        <div id="graph-container" class="tone-1 rounded border-gray-400 border-2 w-full h-full flex flex-col justify-start items-center" style="min-width: 100px; height: 710px; width: 940px;">
+                            <div id="graph-1" class="w-full h-full tone-2 flex justify-center items-center collapse"></div>
+                            <div id="graph-2" class="w-full h-full tone-2 collapse"></div>
+                            <div id="graph-3" class="w-full h-full tone-2 flex justify-center items-center">
+                                <div class="flex flex-col justify-center items-center text-white select-none">
+                                    <h1 id="welcome-tab-name" class="text-5xl font-changa mb-10" style="font-weight: 600;">Welcome</h1>
+                                    <h2 class="text-2xl font-changa" >Explore your Intra statistics</h2>
+                                    <h2 class="text-2xl font-changa mb-8">by clicking on 'Progress' or 'Projects' tab</h2>
+                                    <h3 class="text-xl font-changa mb-4" style="font-weight: 500;">Ensure Your Data Stays Secure!</h3>
+                                    <h3 class="text-xl font-changa" style="font-weight: 500;">Please log out to clear Your</h3>
+                                    <h3 class="text-xl font-changa mb-6" style="font-weight: 500;">data from local storage</h3>
+                                    <div id="logout2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="graph-select" class="tone-1 w-max h-max flex rounded border-gray-400 border-2">
+                            <div id="graph-select-1" class="graphSelect w-20 h-10 flex justify-center items-center" toggled="false" onclick="toggleGraph(event)">
+                                <div class="w-max">
+                                    <h1 class="font-changa text-gray-50">Progress</h1>
+                                    <div id="graph-Name-Underline"></div>
+                                </div>
+                            </div>
+                            <div id="graph-select-2" class="graphSelect w-20 h-10 flex justify-center items-center" toggled="false" onclick="toggleGraph(event)">
+                                <div class="w-max">
+                                    <h1 class="font-changa text-gray-50">Projects</h1>
+                                    <div id="graph-Name-Underline"></div>
+                                </div>
+                            </div>
+                            <div id="graph-select-3" class="graphSelect w-20 h-10 flex justify-center items-center" toggled="false" onclick="toggleGraph(event)">
+                                <div class="w-max">
+                                    <h1 class="font-changa text-gray-50">Context</h1>
+                                    <div id="graph-Name-Underline"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
